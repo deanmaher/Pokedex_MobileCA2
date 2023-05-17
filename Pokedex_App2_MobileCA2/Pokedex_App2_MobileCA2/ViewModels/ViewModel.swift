@@ -38,7 +38,7 @@ class ViewModel: ObservableObject {
     func getDetails(pokemon: Pokemon) {
         let id = getPokemonIndex(pokemon: pokemon)
         
-        self.pokemonDetails = DetailPokemon(id: 0, height: 0, weight: 0)
+        self.pokemonDetails = DetailPokemon(id: 0, height: 0, weight: 0, base_experience: 0)
         
         pokemonManager.getDetailedPokemon(id: id) { data in
             DispatchQueue.main.async {
@@ -54,4 +54,5 @@ class ViewModel: ObservableObject {
         
         return string
     }
+    
 }

@@ -26,4 +26,5 @@ struct DetailPokemon: Codable {
     let id: Int
     let height: Int
     let weight: Int
+    let base_experience: Int
 }
