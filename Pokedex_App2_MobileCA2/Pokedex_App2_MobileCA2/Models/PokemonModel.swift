@@ -1,3 +1,4 @@
+
 //
 //  PokemonModel.swift
 //  Pokedex_App2_MobileCA2
@@ -17,14 +18,24 @@ struct Pokemon: Codable, Identifiable, Equatable {
     let id = UUID()
     let name: String
     let url: String
-    
+
     static var samplePokemon = Pokemon(name: "bulbasaur", url: "https://pokeapi.co/api/v2/pokemon/1/")
 }
 
 struct DetailPokemon: Codable {
-    //can pull more info if needed eg base stat
     let id: Int
     let height: Int
     let weight: Int
     let base_experience: Int
+    let types: [PokemonTypes]
+}
+
+struct PokemonTypes: Codable {
+    let slot: Int
+    let type: TypeData
+}
+
+struct TypeData: Codable {
+    let name: String
+    let url: String
 }
