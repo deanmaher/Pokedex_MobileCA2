@@ -24,4 +24,6 @@ class PokemonManager {
             print(error)
         }
     }
+    
+    
 }

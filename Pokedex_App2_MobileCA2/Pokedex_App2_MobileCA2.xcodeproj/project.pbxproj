@@ -21,7 +21,6 @@
 		3FD5EED82A14EC1A00AFD606 /* PokemonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5EED72A14EC1A00AFD606 /* PokemonManager.swift */; };
 		3FD5EEDB2A14EDB400AFD606 /* PokemonDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5EEDA2A14EDB400AFD606 /* PokemonDetailView.swift */; };
 		3FD5EEDD2A14EE0E00AFD606 /* PokemonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5EEDC2A14EE0E00AFD606 /* PokemonView.swift */; };
-		3FD5EEDF2A151A0E00AFD606 /* homeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5EEDE2A151A0E00AFD606 /* homeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,7 +59,6 @@
 		3FD5EED72A14EC1A00AFD606 /* PokemonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonManager.swift; sourceTree = "<group>"; };
 		3FD5EEDA2A14EDB400AFD606 /* PokemonDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailView.swift; sourceTree = "<group>"; };
 		3FD5EEDC2A14EE0E00AFD606 /* PokemonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonView.swift; sourceTree = "<group>"; };
-		3FD5EEDE2A151A0E00AFD606 /* homeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = homeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,7 +194,6 @@
 				3FD5EEA02A14E78C00AFD606 /* ContentView.swift */,
 				3FD5EEDA2A14EDB400AFD606 /* PokemonDetailView.swift */,
 				3FD5EEDC2A14EE0E00AFD606 /* PokemonView.swift */,
-				3FD5EEDE2A151A0E00AFD606 /* homeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -340,7 +337,6 @@
 				3FD5EE9F2A14E78C00AFD606 /* Pokedex_App2_MobileCA2App.swift in Sources */,
 				3FD5EEDB2A14EDB400AFD606 /* PokemonDetailView.swift in Sources */,
 				3FD5EED12A14EB3D00AFD606 /* PokemonModel.swift in Sources */,
-				3FD5EEDF2A151A0E00AFD606 /* homeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

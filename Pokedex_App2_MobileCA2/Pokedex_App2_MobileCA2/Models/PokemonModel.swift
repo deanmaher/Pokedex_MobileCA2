@@ -22,9 +22,33 @@ struct Pokemon: Codable, Identifiable, Equatable {
 }
 
 struct DetailPokemon: Codable {
-    //can pull more info if needed eg base stat
     let id: Int
     let height: Int
     let weight: Int
     let base_experience: Int
+    let types: [PokemonTypes]
 }
+
+struct PokemonTypes: Codable {
+    let slot: Int
+    let type: TypeData
+}
+
+struct TypeData: Codable {
+    let name: String
+    let url: String
+}
+
+struct PokemonTypeResponse: Codable {
+    let results: [TypeData]
+}
+
+
+struct PokemonTypeDetailResponse: Codable {
+    let pokemon: [PokemonTypeDetail]
+}
+
+struct PokemonTypeDetail: Codable {
+    let pokemon: Pokemon
+}
+
