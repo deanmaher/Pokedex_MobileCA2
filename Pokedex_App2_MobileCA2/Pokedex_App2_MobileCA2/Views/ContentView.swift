@@ -70,6 +70,7 @@ struct ContentView: View {
         .environmentObject(vm)
     }
     
+    // Fetches the names of the types and creates horizontal scroll
     func fetchPokemonTypes() {
         guard let url = URL(string: "https://pokeapi.co/api/v2/type?limit=18") else {
             return
