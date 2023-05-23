@@ -6,20 +6,22 @@
 //
 
 import SwiftUI
-
-struct PokemonTypeListView: View {
-    @EnvironmentObject var vm: ViewModel
-
-    var body: some View {
-        List {
-            ForEach(vm.pokemonOfType, id: \.pokemon.id) { pokemonDetail in
-                PokemonView(pokemon: pokemonDetail.pokemon)
-            }
-        }
-    }
-}
+//
+//struct PokemonTypeListView: View {
+//    @EnvironmentObject var vm: ViewModel
+//
+//    var body: some View {
+//        List {
+//            ForEach(vm.pokemonOfType, id: \.pokemon.id) { pokemonDetail in
+//                PokemonView(pokemon: pokemonDetail.pokemon)
+//            }
+//        }
+//    }
+//}
 
 struct ContentView: View {
+    @Binding var pokemonList2: [PokemonT]
+    
     func isSelectedType(type: String) -> Bool {
             return selectedType == type
         }
@@ -62,9 +64,9 @@ struct ContentView: View {
                 
                 LazyVGrid(columns: adaptiveColumns, spacing: 10) {
                     ForEach(vm.filteredPokemon) { pokemon in
-                        NavigationLink(destination: PokemonDetailView(pokemon: pokemon)
+                        NavigationLink(destination: PokemonDetailView(pokemonList2: $pokemonList2, pokemon: pokemon)
                         ) {
-                            PokemonView(pokemon: pokemon)
+                            PokemonView(pokemon: pokemon,dimensions:140)
                         }
                     }
                 }
@@ -147,13 +149,4 @@ struct ContentView: View {
         }
     }
     
-}
-
-
-
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
 }

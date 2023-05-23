@@ -11,7 +11,7 @@ import SwiftUI
 
 struct PokemonView: View {
     let pokemon: Pokemon
-    let dimensions: Double = 140
+    let dimensions: Double
     
     var body: some View {
         VStack {
