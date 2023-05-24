@@ -34,6 +34,18 @@ struct DetailPokemon: Codable {
     let weight: Int
     let base_experience: Int
     let types: [PokemonTypes]
+    let stats: [PokemonStats]
+}
+
+struct PokemonStats: Codable {
+    let base_stat: Int
+    let effort: Int
+    let stat: StatData
+}
+
+struct StatData: Codable {
+    let name: String
+    let url: String
 }
 
 struct PokemonTypes: Codable {

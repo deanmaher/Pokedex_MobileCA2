@@ -1,52 +1,87 @@
 import Foundation
 import SwiftUI
+import AVFoundation
 
 struct PokemonDetailView: View {
     @EnvironmentObject var vm: ViewModel
     @Binding var pokemonList2: [PokemonT]
     let pokemon: Pokemon
-
+    @State private var audioPlayer: AVAudioPlayer?
+    
     var body: some View {
-        ScrollView {
-            VStack {
-                PokemonView(pokemon: pokemon,dimensions: 250)
-                    .padding(.top)
-
-                VStack(alignment: .leading, spacing: 20) {
-                    Group {
-                        Text("Details").font(.title2).fontWeight(.bold)
-                        DetailRow(title: "ID", value: "\(vm.pokemonDetails?.id ?? 0)")
-                        DetailRow(title: "Weight", value: "\(vm.formatHW(value: vm.pokemonDetails?.weight ?? 0)) KG")
-                        DetailRow(title: "Height", value: "\(vm.formatHW(value: vm.pokemonDetails?.height ?? 0)) M")
-
-                        VStack(alignment: .leading) {
-                            Text("Base XP:")
-                                .font(.headline)
-                                .foregroundColor(.gray)
-                            ProgressBar(value: Double(vm.pokemonDetails?.base_experience ?? 0) / 400)
-                            Text("\(vm.pokemonDetails?.base_experience ?? 0) / 400")
-                                .font(.footnote)
-                                .foregroundColor(.gray)
+        VStack {
+            PokemonView(pokemon: pokemon,dimensions: 250)
+                .padding(.top)
+            Button(action: {
+                playAudio()
+            }) {
+                Text("Play Audio")
+            }
+            TabView {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 20) {
+                        Group {
+                            Text("About").font(.title2).fontWeight(.bold)
+                            DetailRow(title: "ID", value: "\(vm.pokemonDetails?.id ?? 0)")
+                            DetailRow(title: "Weight", value: "\(vm.formatHW(value: vm.pokemonDetails?.weight ?? 0)) KG")
+                            DetailRow(title: "Height", value: "\(vm.formatHW(value: vm.pokemonDetails?.height ?? 0)) M")
+                            
+                            VStack(alignment: .leading) {
+                                Text("Base XP:")
+                                    .font(.headline)
+                                    .foregroundColor(.gray)
+                                ProgressBar(value: Double(vm.pokemonDetails?.base_experience ?? 0) / 400)
+                                Text("\(vm.pokemonDetails?.base_experience ?? 0) / 400")
+                                    .font(.footnote)
+                                    .foregroundColor(.gray)
+                            }
                         }
-                    }
-
-                    if let types = vm.pokemonDetails?.types {
-                        ForEach(types, id: \.slot) { pokemonType in
-                            DetailRow(title: "Type", value: "\(pokemonType.type.name.capitalized)")
-                        }
-                    } else {
-                        DetailRow(title: "Type", value: "Base")
                     }
                 }
-                .padding()
+                .tabItem {
+                    Label("About", systemImage: "info.circle.fill")
+                }
+                
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text("Base Stats").font(.title2).fontWeight(.bold)
+                        if let types = vm.pokemonDetails?.types {
+                            ForEach(types, id: \.slot) { pokemonType in
+                                DetailRow(title: "Type", value: "\(pokemonType.type.name.capitalized)")
+                            }
+                        } else {
+                            DetailRow(title: "Type", value: "Base")
+                        }
+                        
+                        if let stats = vm.pokemonDetails?.stats {
+                            ForEach(stats, id: \.stat.name) { pokemonStat in
+                                DetailRow(title: pokemonStat.stat.name.capitalized, value: "\(pokemonStat.base_stat)")
+                            }
+                        }
+                    }
+                }
+                .tabItem {
+                    Label("Base Stats", systemImage: "info")
+                }
             }
+            .padding()
         }
         .onAppear {
             vm.getDetails(pokemon: pokemon)
+            if let soundURL = Bundle.main.url(forResource: "1", withExtension: "mp3") {
+                audioPlayer = try? AVAudioPlayer(contentsOf: soundURL)
+            }
         }
         .navigationTitle(Text(pokemon.name.capitalized))
         .navigationBarTitleDisplayMode(.inline)
     }
+
+    func playAudio() {
+        print("play audio")
+        audioPlayer?.play()
+    }
+    
+    
 }
 
 struct DetailRow: View {
