@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location will be used to send notification when you enter and exit PJ Carrols</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app would like to use the phones location</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires access to the camera to capture photos of Pokemon.</string>
+</dict>
+</plist>
