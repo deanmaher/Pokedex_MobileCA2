@@ -4,8 +4,9 @@ struct PokemonT: Identifiable, Codable {
     var id = UUID()
     var name: String
     var type: String
-    var ability: String
-    var age: String
+    var height: String
+    var weight: String
+    var baseXP: String
     var imageData: Data
     var image: Image {
         Image(uiImage: UIImage(data: imageData)!)

@@ -7,6 +7,7 @@ struct PokemonDetailView: View {
     @Binding var pokemonList2: [PokemonT]
     let pokemon: Pokemon
     @State private var audioPlayer: AVAudioPlayer?
+    @State private var  typeColour: String?
     
     var body: some View {
         VStack {
@@ -17,6 +18,11 @@ struct PokemonDetailView: View {
             }) {
                 Text("Play Audio")
             }
+            Button(action: {
+                            savePokemon()
+                        }) {
+                            Text("Save Pokemon")
+                        }
             TabView {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
@@ -58,7 +64,7 @@ struct PokemonDetailView: View {
                                 DetailRow(title: pokemonStat.stat.name.capitalized, value: "\(pokemonStat.base_stat)")
                             }
                         }
-                    }
+                    }.padding(.bottom)
                 }
                 .tabItem {
                     Label("Base Stats", systemImage: "info")
@@ -70,13 +76,26 @@ struct PokemonDetailView: View {
         }
         .onAppear {
             vm.getDetails(pokemon: pokemon)
-            if let soundURL = Bundle.main.url(forResource: "1", withExtension: "mp3") {
-                audioPlayer = try? AVAudioPlayer(contentsOf: soundURL)
-            }
+            let audioSession = AVAudioSession.sharedInstance()
+                do {
+                    try audioSession.setCategory(.playback)
+                } catch {
+                    print("Setting up audio session failed: \(error)")
+                }
+            
+            if let soundURL = Bundle.main.url(forResource: "audio/pokemon cries_mixdown_Track \(pokemon.id)", withExtension: "mp3") {
+                    do {
+                        audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+                    } catch {
+                        print("Audio player initialization failed: \(error)")
+                    }
+                } else {
+                    print("File not found")
+                }
         }
         .navigationTitle(Text(pokemon.name.capitalized))
         .navigationBarTitleDisplayMode(.inline)
-        .background(Color.gray.ignoresSafeArea())
+        .background(backgroundTypeColour(vm.colourType).ignoresSafeArea())
     }
 
     func playAudio() {
@@ -85,7 +104,34 @@ struct PokemonDetailView: View {
     }
     
     
-}
+    func savePokemon() {
+            let encoder = JSONEncoder()
+        
+            do {
+                let data = try encoder.encode(pokemon)
+                let url = getDocumentsDirectory().appendingPathComponent("\(pokemon.name).json")
+                try data.write(to: url)
+            } catch {
+                print("Saving pokemon failed: \(error)")
+            }
+        }
+
+        func loadPokemon(named name: String) -> Pokemon? {
+            let url = getDocumentsDirectory().appendingPathComponent("\(name).json")
+        
+            do {
+                let data = try Data(contentsOf: url)
+                let decoder = JSONDecoder()
+                let pokemon = try decoder.decode(Pokemon.self, from: data)
+                return pokemon
+            } catch {
+                print("Loading pokemon failed: \(error)")
+                return nil
+            }
+        }
+    }
+    
+
 
 struct DetailRow: View {
     var title: String
@@ -176,6 +222,7 @@ func backgroundTypeColour(_ type: String) -> Color {
         return Color.gray
     }
 }
+
 
 //struct PokemonDetailView_Previews: PreviewProvider {
 //    static var previews: some View {

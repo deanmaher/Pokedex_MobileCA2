@@ -16,7 +16,8 @@ class ViewModel: ObservableObject {
     @Published var pokemonDetails: DetailPokemon?
     @Published var searchText = ""
     @Published var pokemonOfType = [PokemonTypeDetail]()
-
+    @Published var colourType = ""
+    
     func fetchPokemonByType(type: String) {
         guard let url = URL(string: "https://pokeapi.co/api/v2/type/\(type)") else {
             return
@@ -33,7 +34,7 @@ class ViewModel: ObservableObject {
                     let response = try JSONDecoder().decode(PokemonTypeResponse.self, from: data)
                     DispatchQueue.main.async {
                         self.pokemonList = response.pokemon.map {
-                            let id = Int($0.pokemon.url.split(separator: "/").last ?? "0") ?? 0
+                            _ = Int($0.pokemon.url.split(separator: "/").last ?? "0") ?? 0
                             return Pokemon(name: $0.pokemon.name, url: $0.pokemon.url)
                         }
                     }
@@ -102,8 +103,12 @@ class ViewModel: ObservableObject {
         pokemonManager.getDetailedPokemon(id: id) { data in
             DispatchQueue.main.async {
                 self.pokemonDetails = data
+                self.colourType = data.types.first?.type.name ?? ""
+
             }
         }
+        
+        
     }
     
     // Formats the Height or the Weight of a given pokemon

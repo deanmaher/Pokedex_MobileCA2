@@ -8,8 +8,9 @@ struct CreatePokemonView: View {
     @State private var inputImage: UIImage?
     @State private var name: String = ""
     @State private var type: String = ""
-    @State private var ability: String = ""
-    @State private var age: String = ""
+    @State private var baseXP: String = ""
+    @State private var height: String = ""
+    @State private var weight: String = ""
     @Binding var pokemonList2: [PokemonT]
 
     var body: some View {
@@ -42,12 +43,16 @@ struct CreatePokemonView: View {
                             .padding()
                             .background(Color(.systemGray6))
                             .cornerRadius(10)
-                        TextField("Ability", text: $ability)
+                        TextField("Height", text: $height)
+                            .keyboardType(.numberPad)
                             .padding()
                             .background(Color(.systemGray6))
                             .cornerRadius(10)
-                        TextField("Age", text: $age)
-                            .keyboardType(.numberPad)
+                        TextField("Weight", text: $weight)
+                            .padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(10)
+                        TextField("Base XP", text: $baseXP)
                             .padding()
                             .background(Color(.systemGray6))
                             .cornerRadius(10)
@@ -86,8 +91,8 @@ struct CreatePokemonView: View {
                             .background(Color.green)
                             .cornerRadius(10)
                     }
-                    .disabled(name.isEmpty || type.isEmpty || ability.isEmpty || age.isEmpty || inputImage == nil)
-                    .opacity((name.isEmpty || type.isEmpty || ability.isEmpty || age.isEmpty || inputImage == nil) ? 0.5 : 1.0)
+                    .disabled(name.isEmpty || type.isEmpty || height.isEmpty || weight.isEmpty || baseXP.isEmpty || inputImage == nil)
+                    .opacity((name.isEmpty || type.isEmpty || height.isEmpty || weight.isEmpty || baseXP.isEmpty || inputImage == nil) ? 0.5 : 1.0)
                     .padding()
                 }
             }
@@ -109,7 +114,7 @@ struct CreatePokemonView: View {
         let filename = getDocumentsDirectory().appendingPathComponent("SavedPokemon")
 
         do {
-            let newPokemon = PokemonT(name: name, type: type, ability: ability, age: age, imageData: inputImage!.pngData()!)
+            let newPokemon = PokemonT(name: name, type: type,height: height, weight: weight,  baseXP: baseXP,  imageData: inputImage!.pngData()!)
             pokemonList2.append(newPokemon)
             let data = try JSONEncoder().encode(self.pokemonList2)
             try data.write(to: filename, options: [.atomicWrite, .completeFileProtection])

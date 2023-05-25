@@ -1,41 +1,65 @@
-//  PersonalPokedexView.swift
-//  Pokedex_App2_MobileCA2
-//
-//  Created by Student on 23/05/2023.
-//
-
-import Foundation
 import SwiftUI
 
 struct PersonalPokedexView: View {
     @Binding var pokemonList2: [PokemonT]
 
     var body: some View {
-        List(pokemonList2) { pokemon in
-            VStack {
-                HStack {
-                    pokemon.image
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 80)
-                        .clipShape(Circle())
-                        .shadow(radius: 10)
-                        .padding(5)
-                    VStack(alignment: .leading) {
-                        Text(pokemon.name)
-                            .font(.headline)
-                        Text(pokemon.type)
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        Text(pokemon.ability)
-                            .font(.footnote)
-                            .foregroundColor(.secondary)
-                        Text("Age: \(pokemon.age)")
-                            .font(.footnote)
-                            .foregroundColor(.secondary)
+        NavigationView {
+            List {
+                ForEach(pokemonList2.indices, id: \.self) { index in
+                    NavigationLink(destination: PersonalPokemonDetailView(pokemon: $pokemonList2[index])) {
+                        HStack {
+                            pokemonList2[index].image
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 80)
+                                .clipShape(Circle())
+                                .shadow(radius: 10)
+                                .padding(5)
+                            VStack(alignment: .leading) {
+                                Text(pokemonList2[index].name)
+                                    .font(.headline)
+                                Text(pokemonList2[index].type)
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                                Text(pokemonList2[index].height)
+                                    .font(.footnote)
+                                    .foregroundColor(.secondary)
+                                Text(pokemonList2[index].weight)
+                                    .font(.footnote)
+                                    .foregroundColor(.secondary)
+                                Text(pokemonList2[index].baseXP)
+                                    .font(.footnote)
+                                    .foregroundColor(.secondary)
+                            }
+                        }
                     }
                 }
+                .onDelete(perform: delete)
             }
         }
     }
+
+    private func delete(at offsets: IndexSet) {
+        pokemonList2.remove(atOffsets: offsets)
+        savePokemon() // save the changes to the file
+    }
+
+    private func savePokemon() {
+        let filename = getDocumentsDirectory().appendingPathComponent("SavedPokemon")
+
+        do {
+            let data = try JSONEncoder().encode(self.pokemonList2)
+            try data.write(to: filename, options: [.atomicWrite, .completeFileProtection])
+        } catch {
+            print("Could not save data.")
+        }
+    }
+    
+
+    private func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
 }
+

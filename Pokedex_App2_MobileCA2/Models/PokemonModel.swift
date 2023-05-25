@@ -38,16 +38,15 @@ struct DetailPokemon: Codable {
 }
 
 struct PokemonStats: Codable {
-     let base_stat: Int
-     let effort: Int
-     let stat: StatData
- }
+    let base_stat: Int
+    let effort: Int
+    let stat: StatData
+}
 
- struct StatData: Codable {
-     let name: String
-     let url: String
- }
-
+struct StatData: Codable {
+    let name: String
+    let url: String
+}
 
 struct PokemonTypes: Codable {
     let slot: Int
@@ -75,6 +74,7 @@ struct PokemonTypeDetailResponse: Codable {
 struct PokemonTypeDetail: Codable {
     let pokemon: Pokemon
 }
+
 
 
 
